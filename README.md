@@ -15,7 +15,7 @@ The **PDLS\_EXT3\_Python\_Touch** provides a high-level interface to drive the [
 + [Touch Expansion Board for EXT3 (EXT3-Touch)](https://www.pervasivedisplays.com/product/touch-expansion-board-ext3-touch/); 
 + [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/) board;
 + cables; 
-+ nuts, bolds and spacers.
++ nuts, bolts and spacers.
 
 ## Features
 
