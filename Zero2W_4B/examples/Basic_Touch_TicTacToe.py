@@ -94,7 +94,7 @@ def setBoard(i, j, player):
 
 
 def resetGame():
-    global moves
+    global moves, winner
     for i in range(NUMBER):
         for j in range(NUMBER):
             board[i][j] = 0
@@ -132,7 +132,7 @@ def drawGameScreen():
 
 
 def drawGameOverScreen():
-    global colourGrid, colourHuman, colourMCU
+    global colourGrid, colourHuman, colourMCU, winner
 
     if (winner == Player.NONE):
         text = "DRAW"

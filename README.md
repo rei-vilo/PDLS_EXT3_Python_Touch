@@ -10,7 +10,7 @@ The Pervasive Displays Library Suite is specifically designed for the [Pervasive
 
 ![](https://pdls.pervasivedisplays.com/userguide/img/Logo_PDI_text_320.png)
 
-The **PDLS\_EXT3\_Python\_Touch** provides a high-level interface to drive the [E-paper Pico Development Kit 2.71"-Touch (EPDK-2.71-Touch)](https://www.pervasivedisplays.com/product/touch-expansion-board-ext3-touch/#tab-3), which includes
+The **PDLS\_EXT3\_Python\_Touch** provides a high-level interface to drive the [E-paper Pico Development Kit 2.71"-Touch (EPDK-271-Touch)](https://www.pervasivedisplays.com/product/touch-expansion-board-ext3-touch/#tab-3), which includes
 
 + iTC 2.7" e-paper screen with embedded fast update and capacitive touch;
 + [EPD Extension Kit Gen 3 (EXT3 or EXT3-1)](https://www.pervasivedisplays.com/product/epd-extension-kit-gen-3-EXT3/);
@@ -50,10 +50,12 @@ print("Before", gc.mem_free())
 gc.collect()
 print("After", gc.mem_free())
 ```
+
 ## Licence
 
-&copy; Rei Vilo, 2010-2023
+Copyright &copy; Rei Vilo, 2010-2023
 
-[Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](./LICENCE.md)
+Licence [Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](./LICENCE.md)
 
 ![](./by-nc-sa.svg)
+

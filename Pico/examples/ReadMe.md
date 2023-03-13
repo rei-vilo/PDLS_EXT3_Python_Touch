@@ -4,7 +4,7 @@
 
 If **PDLS\_EXT3\_Python\_Touch** has been copied into the Raspberry Pi Pico, 
 
-+ `Connect the Raspberry Pi Pico to the computer;
++ Connect the Raspberry Pi Pico to the computer;
 + Open a **REPL** window on the Raspberry Pi;
 + Run the following example
 
