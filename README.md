@@ -1,6 +1,6 @@
 # Pervasive Displays Library Suite - Touch - Python Edition 
 
-This is an experimental port of the Pervasive Displays Library Suite to Python on the Raspberry Pi Pico and Raspberry Pi Zero 2W or 4B.
+This is an experimental port of the [Pervasive Displays Library Suite](https://github.com/rei-vilo/PDLS_EXT3_Basic_Touch) to Python on the Raspberry Pi Pico and Raspberry Pi Zero 2W or 4B.
 
 ---
 
