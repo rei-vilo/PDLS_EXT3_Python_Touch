@@ -7,8 +7,8 @@
 # @n Based on highView technology
 #
 # @author Rei Vilo
-# @date 20 Mar 2023
-# @version 607
+# @date 22 Feb 2023
+# @version 606
 #
 # @copyright (c) Rei Vilo, 2010-2023
 # @copyright Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)

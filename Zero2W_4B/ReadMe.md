@@ -36,7 +36,6 @@ Software
 + [Adafruit Blinka](https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/installing-circuitpython-on-raspberry-pi#update-your-pi-and-python-2993452) package, release 8.2.1
 + [PDLS_EXT3_Python_Touch](https://github.com/rei-vilo/PDLS_EXT3_Python_Touch) package, release 6.0.7
 
-
 Hardware
 
 + Pervasive Displays [E-paper Pico Development Kit 2.71"-Touch (EPDK-271-Touch)](https://www.pervasivedisplays.com/product/touch-expansion-board-ext3-touch/#tab-3)
