@@ -34,7 +34,8 @@ Software
 + [Python](https://www.python.org/downloads/) release 3.9.2
 + [Adafruit Platform Detect](https://github.com/adafruit/Adafruit_Python_PlatformDetect) package, release 3.39.0
 + [Adafruit Blinka](https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/installing-circuitpython-on-raspberry-pi#update-your-pi-and-python-2993452) package, release 8.2.1
-+ [PDLS_EXT3_Python_Touch](https://github.com/rei-vilo/PDLS_EXT3_Python_Touch) package, release 6.0.6
++ [PDLS_EXT3_Python_Touch](https://github.com/rei-vilo/PDLS_EXT3_Python_Touch) package, release 6.0.7
+
 
 Hardware
 

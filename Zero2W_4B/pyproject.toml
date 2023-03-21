@@ -4,7 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "PDLS_EXT3_Python_Touch"
-version = "6.0.6"
+version = "6.0.7
+"
 authors = [
   { name="Rei Vilo" },
 ]
