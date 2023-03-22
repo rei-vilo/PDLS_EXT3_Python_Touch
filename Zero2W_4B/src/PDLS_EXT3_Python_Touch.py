@@ -20,5 +20,5 @@ __licence__ = "CC BY-NC-SA 4.0 - Creative Commons Attribution-NonCommercial-Shar
 __version__ = "6.0.7"
 
 from hV_Fonts import Font
-from hV_Screen import Colour, touchEvent, Screen
+from hV_Screen import Colour, touchEvent, Screen, Screen_EPD
 import time

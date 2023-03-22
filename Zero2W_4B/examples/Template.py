@@ -1,9 +1,8 @@
 #
-# @file Common_Orientation.py
-# @brief Example of features of the Python edition
+# @file Template.py
+# @brief Example of features for Python edition
 #
-# @details Project Pervasive Displays Library Suite
-# @n Ported to MicroPython for Raspberry Pi Pico
+# @details Library for Pervasive Displays EXT3 - Basic level
 # @n Based on highView technology
 #
 # @author Rei Vilo
@@ -11,7 +10,7 @@
 # @version 608
 #
 # @copyright (c) Rei Vilo, 2010-2023
-# @copyright Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+# @copyright Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 # @see https://creativecommons.org/licenses/by-nc-sa/4.0/
 #
 
@@ -29,13 +28,11 @@ myScreen = Screen(Screen_EPD.EXT3_370_0C_Touch)
 myScreen.begin()
 
 # Demo code
-print("= Common_Orientation")
-myScreen.selectFont(Font.TERMINAL_8x12)
+print("= Common_WhoAmI")
 
-for i in range(4):
-    myScreen.setOrientation(i)
-    text = "> Orientation " + str(i)
-    myScreen.gText(10, 10, text)
+myScreen.setOrientation(7)
+myScreen.selectFont(Font.TERMINAL_16x24)
+myScreen.gText(4, 4, myScreen.WhoAmI())
 
 # Flush, wait, regenerate and end
 myScreen.flush()

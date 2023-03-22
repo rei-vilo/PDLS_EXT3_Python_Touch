@@ -23,10 +23,18 @@ from machine import Pin, SPI, I2C
 import time
 from hV_Fonts import *
 
+# @brief Screens constants
+
+
+class Screen_EPD:
+    EXT3_271_09_Touch = 0x032709
+    EXT3_370_0C_Touch = 0x03370C
 
 # @brief Colours constants
 # Colours RGB = 565 Red  Green Blue
 #                   4321054321043210
+
+
 class Colour:
     BLACK = 0b0000000000000000  # Black
     WHITE = 0b1111111111111111  # White
@@ -53,7 +61,7 @@ class Screen:
     boardLED = Pin(25, Pin.OUT)
 
     # Touch
-    touchINT = Pin(2, Pin.IN) 
+    touchINT = Pin(2, Pin.IN)
     touchRESET = Pin(3, Pin.OUT)
     i2cAddress = 0x41
 
@@ -81,6 +89,7 @@ class Screen:
     # index50_data goes here
 
     # Screen variables for 2.71-Touch
+    _eScreen_EPD_EXT3 = Screen_EPD.EXT3_271_09_Touch
     _screenSizeV = 264  # vertical = wide size
     _screenSizeH = 176  # horizontal = small size
     _screenDiagonal = 270  # 270 for touch
@@ -89,8 +98,8 @@ class Screen:
     _bufferSizeV = _screenSizeV  # vertical = wide size
     _bufferSizeH = (_screenSizeH >> 3)  # horizontal = small size 112 / 8
     _pageColourSize = _bufferSizeV * _bufferSizeH
-    _newImage = bytearray(_pageColourSize)  # Next
-    _oldImage = bytearray(_pageColourSize)  # Previous
+    # _newImage = bytearray(_pageColourSize)  # Next
+    # _oldImage = bytearray(_pageColourSize)  # Previous
     _i2cAddress = 0x41
 
     # Touch
@@ -179,7 +188,7 @@ class Screen:
         self.__waitBusy()
 
         # Temperature settings
-        self.__sendIndexData(0xe5, [0x19 | 0x40], 1)  # IN Temperature: 25C
+        self.__sendIndexData(0xe5, [0x19 | 0x40], 1)  # Input Temperature: 25C
         self.__sendIndexData(0xe0, [0x02], 1)  # Activate Temperature
         self.__sendIndexData(0x00, [0xcf | 0x10, 0x8d | 0x02], 2)  # PSR
         # _flag50a goes here
@@ -208,13 +217,45 @@ class Screen:
         self.__waitBusy()
 
     # Functions
-    def __init__(self):
+    def __init__(self, model):
+        self._eScreen_EPD_EXT3 = model
         pass
 
     def __del__(self):
         pass
 
     def begin(self):
+        # Identify
+        if (self._eScreen_EPD_EXT3 == Screen_EPD.EXT3_271_09_Touch):
+            # Screen variables for 2.71-Touch
+            self._screenSizeV = 264  # vertical = wide size
+            self._screenSizeH = 176  # horizontal = small size
+            self._screenDiagonal = 271  # 271 for touch
+            self._bufferDepth = self._screenColourBits  # 2 colours
+            self._bufferSizeV = self._screenSizeV  # vertical = wide size
+            # horizontal = small size 112 / 8
+            self._bufferSizeH = (self._screenSizeH >> 3)
+            self._pageColourSize = self._bufferSizeV * self._bufferSizeH
+            self._newImage = bytearray(self._pageColourSize)  # Next
+            self._oldImage = bytearray(self._pageColourSize)  # Previous
+            self._i2cAddress = 0x41
+        elif (self._eScreen_EPD_EXT3 == Screen_EPD.EXT3_370_0C_Touch):
+            # Screen variables for 2.71-Touch
+            self._screenSizeV = 416  # vertical = wide size
+            self._screenSizeH = 240  # horizontal = small size
+            self._screenDiagonal = 370  # 270 for touch
+            self._bufferDepth = self._screenColourBits  # 2 colours
+            self._bufferSizeV = self._screenSizeV  # vertical = wide size
+            # horizontal = small size 112 / 8
+            self._bufferSizeH = (self._screenSizeH >> 3)
+            self._pageColourSize = self._bufferSizeV * self._bufferSizeH
+            self._newImage = bytearray(self._pageColourSize)  # Next
+            self._oldImage = bytearray(self._pageColourSize)  # Previous
+            self._i2cAddress = 0x38
+        else:
+            print("Error")
+            exit()
+
         self.flashCS.value(1)
         self.panelCS.value(1)
 
@@ -238,21 +279,32 @@ class Screen:
         time.sleep(0.100)
 
         # I2C
-        self._i2c.writeto(self._i2cAddress, bytes([0x20]))
-        bufferRead = bytearray(10)
-        self._i2c.readfrom_into(self._i2cAddress, bufferRead)
+        if (self._eScreen_EPD_EXT3 == Screen_EPD.EXT3_271_09_Touch):
+            # Screen variables for 2.71-Touch
+            self._i2c.writeto(self._i2cAddress, bytes([0x20]))
+            bufferRead = bytearray(10)
+            self._i2c.readfrom_into(self._i2cAddress, bufferRead)
 
-        self._touchXmin = 0
-        self._touchXmax = bufferRead[0] + (bufferRead[1] << 8)
-        self._touchYmin = 0
-        self._touchYmax = bufferRead[2] + (bufferRead[3] << 8)
+            self._touchXmin = 0
+            self._touchXmax = bufferRead[0] + (bufferRead[1] << 8)
+            self._touchYmin = 0
+            self._touchYmax = bufferRead[2] + (bufferRead[3] << 8)
+
+        elif (self._eScreen_EPD_EXT3 == Screen_EPD.EXT3_370_0C_Touch):
+            self._touchXmin = 0
+            self._touchXmax = 239
+            self._touchYmin = 0
+            self._touchYmax = 415
 
         # Font and touch
         self.selectFont(0)
         self._touchPrevious = touchEvent.NONE
 
     def WhoAmI(self):
-        return "iTC 2'70-Touch"
+        if (self._eScreen_EPD_EXT3 == Screen_EPD.EXT3_271_09_Touch):
+            return "iTC 2.71-Touch"
+        elif (self._eScreen_EPD_EXT3 == Screen_EPD.EXT3_370_0C_Touch):
+            return "iTC 3.70-Touch"
 
     def flush(self):
         # Configure
@@ -568,55 +620,100 @@ class Screen:
         return (self.touchINT.value() == 0)
 
     def getTouch(self):
-        _number = bytearray(1)
-
-        try:
-            self._i2c.writeto(self._i2cAddress, bytes([0x10]))
-            self._i2c.readfrom_into(self._i2cAddress, _number)
-        except:
-            _number = [0]
-
         x0 = 0
         y0 = 0
         z0 = 0
         t0 = 0
 
-        if (_number[0] > 0):
-            bufferRead = bytearray(5)
-            self._i2c.writeto(self._i2cAddress, bytes([0x11]))
-            self._i2c.readfrom_into(self._i2cAddress, bufferRead)
+        if (self._eScreen_EPD_EXT3 == Screen_EPD.EXT3_271_09_Touch):
+            _number = bytearray(1)
 
-            _status = bufferRead[0]
-            x0 = (bufferRead[1] << 8) + bufferRead[2]
-            y0 = (bufferRead[3] << 8) + bufferRead[4]
+            try:
+                self._i2c.writeto(self._i2cAddress, bytes([0x10]))
+                self._i2c.readfrom_into(self._i2cAddress, _number)
+            except:
+                _number = [0]
 
-            if (_status & 0x80):  # touch
-                if (self._touchPrevious != touchEvent.NONE):
-                    t0 = touchEvent.MOVE
+            if (_number[0] > 0):
+                bufferRead = bytearray(5)
+                self._i2c.writeto(self._i2cAddress, bytes([0x11]))
+                self._i2c.readfrom_into(self._i2cAddress, bufferRead)
+
+                _status = bufferRead[0]
+                x0 = (bufferRead[1] << 8) + bufferRead[2]
+                y0 = (bufferRead[3] << 8) + bufferRead[4]
+
+                if (_status & 0x80):  # touch
+                    if (self._touchPrevious != touchEvent.NONE):
+                        t0 = touchEvent.MOVE
+                    else:
+                        t0 = touchEvent.PRESS
+
+                    # Keep position for next release
+                    self._touchPrevious = touchEvent.PRESS
+                    self._touchX = x0
+                    self._touchY = y0
+
                 else:
-                    t0 = touchEvent.PRESS
+                    t0 = touchEvent.RELEASE
 
-                # Keep position for next release
-                self._touchPrevious = touchEvent.PRESS
-                self._touchX = x0
-                self._touchY = y0
+                z0 = 0x16
 
-            else:
+            elif (self._touchPrevious != touchEvent.NONE):
+                # Take previous position for release
+                self._touchPrevious = touchEvent.NONE
                 t0 = touchEvent.RELEASE
+                x0 = self._touchX
+                y0 = self._touchY
+                z0 = 0x16
 
-            z0 = 0x16
+            elif (self._touchPrevious == touchEvent.NONE):
+                t0 = touchEvent.NONE
+                z0 = 0
 
-        elif (self._touchPrevious != touchEvent.NONE):
-            # Take previous position for release
-            self._touchPrevious = touchEvent.NONE
-            t0 = touchEvent.RELEASE
-            x0 = self._touchX
-            y0 = self._touchY
-            z0 = 0x16
+        elif (self._eScreen_EPD_EXT3 == Screen_EPD.EXT3_370_0C_Touch):
 
-        elif (self._touchPrevious == touchEvent.NONE):
-            t0 = touchEvent.NONE
-            z0 = 0
+            if (self.getTouchInterrupt() > 0):    
+                _bufferRead = bytearray(3+6)
+                flag = 1
+
+                try:
+                    self._i2c.writeto(self._i2cAddress, bytes([0x00]))
+                    self._i2c.readfrom_into(self._i2cAddress, _bufferRead)
+                except:
+                    flag = 0
+
+                if (flag > 0):
+                    id = _bufferRead[3 + 6 * 0 + 2] >> 4
+
+                    if (id < 0x0f): # validity
+                        x0 = ((_bufferRead[3 + 6 * 0 + 0] & 0x0f) << 8) + _bufferRead[3 + 6 * 0 + 1]
+                        y0 = ((_bufferRead[3 + 6 * 0 + 2] & 0x0f) << 8) + _bufferRead[3 + 6 * 0 + 3]
+
+                        if (self._touchPrevious != touchEvent.NONE):
+                            t0 =touchEvent.NONE
+                        else: 
+                            t0 = touchEvent.PRESS
+
+                        self._touchPrevious = touchEvent.PRESS
+                        self._touchX = x0
+                        self._touchY = y0
+                        z0 = 0x16
+                    else:
+                        t0 = touchEvent.RELEASE
+
+        
+            elif (self._touchPrevious != touchEvent.NONE):    
+                # Take previous position for release
+                self._touchPrevious = touchEvent.NONE
+                t0 = touchEvent.RELEASE
+                x0 = self._touchX
+                y0 = self._touchY
+                z0 = 0x16
+    
+            elif (self._touchPrevious == touchEvent.NONE):
+                t0 = touchEvent.NONE
+                z0 = 0
 
         x = 0
         y = 0
@@ -799,23 +896,23 @@ class Screen:
 #         elif (self._fontSize == 3):
 #             for k in range(0, len(text)):
 #                 c = ord(text[k]) - ord(" ")
-# 
+#
 #                 for i in range(0, 16):
 #                     line = self.__getCharacter(c, 3 * i)
 #                     line1 = self.__getCharacter(c, 3 * i + 1)
 #                     line2 = self.__getCharacter(c, 3 * i + 2)
-# 
+#
 #                     for j in range(0, 8):
 #                         if (self.__bitRead(line, j)):
 #                             self.point(x0 + 16 * k + i, y0 + j, textColour)
 #                         elif (self._fontSolid):
 #                             self.point(x0 + 16 * k + i, y0 + j, backColour)
-# 
+#
 #                         if (self.__bitRead(line1, j)):
 #                             self.point(x0 + 16 * k + i, y0 + 8 + j, textColour)
 #                         elif (self._fontSolid):
 #                             self.point(x0 + 16 * k + i, y0 + 8 + j, backColour)
-# 
+#
 #                         if (self.__bitRead(line2, j)):
 #                             self.point(x0 + 16 * k + i, y0 +
 #                                        16 + j, textColour)

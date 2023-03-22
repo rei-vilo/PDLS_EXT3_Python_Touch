@@ -1,5 +1,5 @@
 #
-# @file hV_GUI.h
+# @file hV_GUI.py
 # @brief Basic GUI with text and button
 #
 # @details Project Pervasive Displays Library Suite

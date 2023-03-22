@@ -7,8 +7,8 @@
 # @n Based on highView technology
 #
 # @author Rei Vilo
-# @date 22 Feb 2023
-# @version 606
+# @date 22 Mar 2023
+# @version 608
 #
 # @copyright (c) Rei Vilo, 2010-2023
 # @copyright Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
@@ -19,6 +19,7 @@ from PDLS_EXT3_Python_Touch import *
 from hV_GUI import *
 
 # Let's go faster
+import machine
 machine.freq(240000000)
 
 def wait(seconds):
@@ -28,7 +29,7 @@ def wait(seconds):
         seconds -= 1
 
 
-myScreen = Screen()
+myScreen = Screen(Screen_EPD.EXT3_370_0C_Touch)
 myScreen.begin()
 
 # Memory
