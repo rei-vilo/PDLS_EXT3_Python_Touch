@@ -14,7 +14,7 @@ Type "help()" for more information.
 >>> 
 >>> from PDLS_EXT3_Python_Touch import *
 >>> 
->>> myScreen = Screen()
+>>> myScreen = Screen(Screen_EPD.EXT3_370_0C_Touch)
 >>> myScreen.begin()
 >>>
 >>> myScreen.setOrientation(7)

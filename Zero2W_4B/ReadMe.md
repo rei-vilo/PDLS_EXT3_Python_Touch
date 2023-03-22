@@ -8,7 +8,9 @@ The Pervasive Displays Library Suite is specifically designed for the [Pervasive
 
 ![](https://pdls.pervasivedisplays.com/userguide/img/Logo_PDI_text_320.png)
 
-The **PDLS\_EXT3\_Python\_Touch** provides a high-level interface to drive the [E-paper Pico Development Kit 2.71"-Touch (EPDK-271-Touch)](https://www.pervasivedisplays.com/product/touch-expansion-board-ext3-touch/#tab-3), which includes
+The **PDLS\_EXT3\_Python\_Touch** provides a high-level interface to drive the [E-paper Pico Development Kit 2.71"-Touch (EPDK-271-Touch)](https://www.pervasivedisplays.com/product/touch-expansion-board-ext3-touch/#tab-3) and the [EXT3-Touch with 3.70" Touch EPD](https://www.pervasivedisplays.com/product/touch-expansion-board-ext3-touch/#tab-2).
+
+The EPDK-271-Touch includes
 
 + iTC 2.7" e-paper screen with embedded fast update and capacitive touch;
 + [EPD Extension Kit Gen 3 (EXT3 or EXT3-1)](https://www.pervasivedisplays.com/product/epd-extension-kit-gen-3-EXT3/);
@@ -35,6 +37,7 @@ Software
 + [Adafruit Platform Detect](https://github.com/adafruit/Adafruit_Python_PlatformDetect) package, release 3.39.0
 + [Adafruit Blinka](https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/installing-circuitpython-on-raspberry-pi#update-your-pi-and-python-2993452) package, release 8.2.1
 + [PDLS_EXT3_Python_Touch](https://github.com/rei-vilo/PDLS_EXT3_Python_Touch) package, release 6.0.7
+
 
 Hardware
 
