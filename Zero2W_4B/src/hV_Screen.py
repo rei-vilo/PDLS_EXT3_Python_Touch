@@ -7,8 +7,8 @@
 # @n Based on highView technology
 #
 # @author Rei Vilo
-# @date 20 Mar 2023
-# @version 607
+# @date 02 May 2023
+# @version 609
 #
 # @copyright (c) Rei Vilo, 2010-2023
 # @copyright Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
@@ -17,7 +17,7 @@
 
 __copyright__ = "Copyright (C) 2010-2023 Rei Vilo"
 __licence__ = "CC BY-NC-SA 4.0 - Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
-__version__ = "6.0.7"
+__version__ = "6.0.9"
 
 import busio
 import board
@@ -92,6 +92,7 @@ class Screen:
     _fontSpaceY = 1
     _orientation = 0
     _font = Font.font_s
+    _temperature = 25
 
     # COG registers
     indexE5_data = [0x19]  # temperature
@@ -198,7 +199,9 @@ class Screen:
         self.__waitBusy()
 
         # Temperature settings
-        self.__sendIndexData(0xe5, [0x19 | 0x40], 1)  # Input Temperature: 25C
+        # self.__sendIndexData(0xe5, [0x19 | 0x40], 1)  # Input Temperature: 25C
+        # Input Temperature: 25C
+        self.__sendIndexData(0xe5, [self._temperature | 0x40], 1)
         self.__sendIndexData(0xe0, [0x02], 1)  # Activate Temperature
         self.__sendIndexData(0x00, [0xcf | 0x10, 0x8d | 0x02], 2)  # PSR
         # _flag50a goes here
@@ -322,6 +325,11 @@ class Screen:
             return "iTC 3.70-Touch"
 
     def flush(self):
+        # Check temperature
+        if ((self._temperature < 15) or (self._temperature > 30)):
+            print("Not valid temperature")
+            return
+
         # Configure
         self.__COG_initial()
 
@@ -688,7 +696,7 @@ class Screen:
 
         elif (self._eScreen_EPD_EXT3 == Screen_EPD.EXT3_370_0C_Touch):
 
-            if (self.getTouchInterrupt() > 0):    
+            if (self.getTouchInterrupt() > 0):
                 _bufferRead = bytearray(3+6)
                 flag = 1
 
@@ -701,13 +709,15 @@ class Screen:
                 if (flag > 0):
                     id = _bufferRead[3 + 6 * 0 + 2] >> 4
 
-                    if (id < 0x0f): # validity
-                        x0 = ((_bufferRead[3 + 6 * 0 + 0] & 0x0f) << 8) + _bufferRead[3 + 6 * 0 + 1]
-                        y0 = ((_bufferRead[3 + 6 * 0 + 2] & 0x0f) << 8) + _bufferRead[3 + 6 * 0 + 3]
+                    if (id < 0x0f):  # validity
+                        x0 = ((_bufferRead[3 + 6 * 0 + 0] & 0x0f)
+                              << 8) + _bufferRead[3 + 6 * 0 + 1]
+                        y0 = ((_bufferRead[3 + 6 * 0 + 2] & 0x0f)
+                              << 8) + _bufferRead[3 + 6 * 0 + 3]
 
                         if (self._touchPrevious != touchEvent.NONE):
-                            t0 =touchEvent.NONE
-                        else: 
+                            t0 = touchEvent.NONE
+                        else:
                             t0 = touchEvent.PRESS
 
                         self._touchPrevious = touchEvent.PRESS
@@ -717,15 +727,14 @@ class Screen:
                     else:
                         t0 = touchEvent.RELEASE
 
-        
-            elif (self._touchPrevious != touchEvent.NONE):    
+            elif (self._touchPrevious != touchEvent.NONE):
                 # Take previous position for release
                 self._touchPrevious = touchEvent.NONE
                 t0 = touchEvent.RELEASE
                 x0 = self._touchX
                 y0 = self._touchY
                 z0 = 0x16
-    
+
             elif (self._touchPrevious == touchEvent.NONE):
                 t0 = touchEvent.NONE
                 z0 = 0
@@ -934,3 +943,10 @@ class Screen:
                         elif (self._fontSolid):
                             self.point(x0 + 16 * k + i, y0 +
                                        16 + j, backColour)
+
+    def setTemperatureC(self, temperatureC=25):
+        self._temperature = int(temperatureC)
+
+    def setTemperatureF(self, temperatureF=77):
+        self._temperature = int(((temperatureF - 32) * 5) / 9)
+
