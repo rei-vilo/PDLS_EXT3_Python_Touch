@@ -21,16 +21,13 @@ __version__ = "6.0.7"
 
 from PDLS_EXT3_Python_Touch import *
 
-
 class Check:
     NORMAL = 0
     INSTANT = 1
 
-
 class State:
     RELEASED = 0
     TOUCHED = 1
-
 
 class GUI:
     _screen: Screen
@@ -55,7 +52,6 @@ class GUI:
 
     def delegate(self, flagDelegate=True):
         self._delegate = flagDelegate
-
 
 class Text:
     _gui: GUI
@@ -91,7 +87,6 @@ class Text:
 
         if (self._gui._delegate):
             self._gui._screen.flush()
-
 
 class Button(Text):
     def dStringDefine(self, x0, y0, dx, dy, text: str, size=0):

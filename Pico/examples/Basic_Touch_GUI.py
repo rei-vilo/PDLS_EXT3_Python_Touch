@@ -15,12 +15,14 @@
 # @see https://creativecommons.org/licenses/by-nc-sa/4.0/
 #
 
+import gc
 from PDLS_EXT3_Python_Touch import *
 from hV_GUI import *
 
 # Let's go faster
 import machine
 machine.freq(240000000)
+
 
 def wait(seconds):
     while (seconds > 0):
@@ -63,6 +65,7 @@ x = myScreen.screenSizeX()
 y = myScreen.screenSizeY()
 dx = int(x / 7)
 dy = int(y / 5)
+
 
 myGUI.delegate(False)
 
@@ -112,4 +115,3 @@ print("- Regenerate")
 myScreen.regenerate()
 
 print(". End")
-

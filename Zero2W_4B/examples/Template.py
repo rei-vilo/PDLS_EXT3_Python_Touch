@@ -16,13 +16,11 @@
 
 from PDLS_EXT3_Python_Touch import *
 
-
 def wait(seconds):
     while (seconds > 0):
         print(">", seconds)
         time.sleep(1)
         seconds -= 1
-
 
 myScreen = Screen(Screen_EPD.EXT3_370_0C_Touch)
 myScreen.begin()

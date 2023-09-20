@@ -66,7 +66,7 @@ winner = 0  # 0 = Draw, 1 = Human, 2 = MCU
 #
 
 
-def displayCenteredText(x0, y0, text, colour, font = Font.TERMINAL_12x16):
+def displayCenteredText(x0, y0, text, colour, font=Font.TERMINAL_12x16):
     myScreen.selectFont(font)
     dz = int(myScreen.characterSizeY() >> 1)
     myScreen.setPenSolid(True)

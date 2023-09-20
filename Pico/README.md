@@ -1,4 +1,4 @@
-# Pervasive Displays Library Suite - Touch - Python Edition for Raspberry Pi Zero 2W or 4B
+# Pervasive Displays Library Suite - Touch - Python Edition for Raspberry Pi Pico 
 
 This is an experimental port of the [Pervasive Displays Library Suite](https://github.com/rei-vilo/PDLS_EXT3_Basic_Touch) to Python on the Raspberry Pi Pico and Raspberry Pi Zero 2W or 4B.
 
@@ -33,31 +33,43 @@ The EPDK-271-Touch includes
 
 Software
 
-+ [Python](https://www.python.org/downloads/) release 3.9.2
-+ [Adafruit Platform Detect](https://github.com/adafruit/Adafruit_Python_PlatformDetect) package, release 3.39.0
-+ [Adafruit Blinka](https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/installing-circuitpython-on-raspberry-pi#update-your-pi-and-python-2993452) package, release 8.2.1
-+ [PDLS_EXT3_Python_Touch](https://github.com/rei-vilo/PDLS_EXT3_Python_Touch) package, release 6.0.9
-
++ Install [MicroPython v1.19.1](https://www.raspberrypi.com/documentation/microcontrollers/micropython.html) from Raspberry Pi;
++ Launch the [Thonny](https://thonny.org) IDE;
++ Copy the content of the `Pico` subfolder of the `PDLS_EXT3_Python_Touch` library into the Raspberry Pi Pico.
 
 Hardware
 
 + Pervasive Displays [E-paper Pico Development Kit 2.71"-Touch (EPDK-271-Touch)](https://www.pervasivedisplays.com/product/touch-expansion-board-ext3-touch/#tab-3)
-+ [Connecting the Pervasive Displays e-Paper EPD Extension Kit Gen 3](https://embeddedcomputing.weebly.com/connecting-the-e-paper-epd-extension-kit-gen-3.html)
-+ Tested on [Raspberry Pi Zero 2 W](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/) and [Raspberry Pi 4B](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/)
++ [Assembling the Pervasive Displays EXT3-Touch](https://embeddedcomputing.weebly.com/assembling-the-pervasive-displays-ext3-touch.html)
 
-Please refer to the Jupyter notebooks for the [installation](./Notebook%20-%20Installation.ipynb), an interactive [first example](./Notebook%20-%20First%20Example.ipynb) and the list of [other examples](./examples/Notebook%20-%20Other%20Examples.ipynb).
+![](./EPDK-271-Touch.jpg)
+
++ [Connecting the Pervasive Displays e-Paper EPD Extension Kit Gen 3](https://embeddedcomputing.weebly.com/connecting-the-e-paper-epd-extension-kit-gen-3.html)
++ Tested on [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/)
 
 ## Notes
 
-1. The version for the Zero 2W or 4B relies on Python and the Adafruit Blinka library. 
+1. Contrary to the version for the Zero 2W or 4B, the version for the Pico does not rely on the Blinka library due to its overhead. Instead, it uses the official MicroPython version from Raspberry Pi. 
 
-1. Even with the powerful CPUs of the Raspberry Pi Zero 2 W and 4B, and SPI speed set at 8 MHz, the refresh process in fast mode is very slow (about 2 seconds), compared to less than a second in C++ (about 700 ms).
+1. Even when the RP2040 is overclocked at 240 MHz and SPI speed set at 8 MHz, the refresh process in fast mode is very slow (about 2 seconds), compared to less than a second in C++ (about 700 ms).
+
+1.  Due to Pico limited size of Flash and RAM, only three fonts are provided. Adding the fourth one raises an memory overflow error.
+
+1.  Memory can be tracked with `gc`.
+
+```
+# Memory
+import gc
+print("Before", gc.mem_free())
+gc.collect()
+print("After", gc.mem_free())
+```
 
 ## Licence
 
-Copyright &copy; Rei Vilo, 2010-2023
+**Copyright** &copy; Rei Vilo, 2010-2023
 
-Licence [Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](./LICENCE.md)
+**Licence** [Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](./LICENCE.md)
 
 ![](./by-nc-sa.svg)
 

@@ -27,7 +27,6 @@ from hV_Fonts import *
 
 # @brief Screens constants
 
-
 class Screen_EPD:
     EXT3_271_09_Touch = 0x032709
     EXT3_370_0C_Touch = 0x03370C
@@ -35,7 +34,6 @@ class Screen_EPD:
 # @brief Colours constants
 # Colours RGB = 565 Red  Green Blue
 #                   4321054321043210
-
 
 class Colour:
     BLACK = 0b0000000000000000  # Black
@@ -45,7 +43,6 @@ class Colour:
 
 # @brief Touch events
 
-
 class touchEvent:
     NONE = 0  # no event
     PRESS = 1  # press event
@@ -54,7 +51,6 @@ class touchEvent:
     STRING = ["NONE", "PRESS", "RELEASE", "MOVE"]
 
 # @brief Main class
-
 
 class Screen:
     # GPIOs for Raspberry Pi Zero 2

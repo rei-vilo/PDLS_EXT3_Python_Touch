@@ -19,6 +19,7 @@ __copyright__ = "Copyright (C) 2010-2023 Rei Vilo"
 __licence__ = "CC BY-NC-SA 4.0 - Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International"
 __version__ = "6.0.7"
 
+
 class Font:
     class font_s:
         kind = 0  # font description

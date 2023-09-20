@@ -694,8 +694,10 @@ class Screen:
                     id = _bufferRead[3 + 6 * 0 + 2] >> 4
 
                     if (id < 0x0f):  # validity
-                        x0 = ((_bufferRead[3 + 6 * 0 + 0] & 0x0f) << 8) + _bufferRead[3 + 6 * 0 + 1]
-                        y0 = ((_bufferRead[3 + 6 * 0 + 2] & 0x0f) << 8) + _bufferRead[3 + 6 * 0 + 3]
+                        x0 = ((_bufferRead[3 + 6 * 0 + 0] & 0x0f)
+                              << 8) + _bufferRead[3 + 6 * 0 + 1]
+                        y0 = ((_bufferRead[3 + 6 * 0 + 2] & 0x0f)
+                              << 8) + _bufferRead[3 + 6 * 0 + 3]
 
                         if (self._touchPrevious != touchEvent.NONE):
                             t0 = touchEvent.NONE
